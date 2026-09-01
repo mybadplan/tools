@@ -1,0 +1,52 @@
+{
+  "generatedAt": "2026-09-01T07:58:25.350Z",
+  "repo": "mybadplan/tools",
+  "branch": "main",
+  "tools": [
+    {
+      "id": "drink-water-tool",
+      "filename": "drink-water-tool.js",
+      "name": "Drink Water",
+      "description": "Generate a random Drink Water reminder — due in 5 minutes (Todo)",
+      "cooldownSeconds": 30,
+      "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/drink-water-tool.js",
+      "size": 5178
+    },
+    {
+      "id": "happy-tool",
+      "filename": "happy-tool.js",
+      "name": "Happy Check",
+      "description": "Ask how much you are happy — 1 to 5 rating with weekly heatmap (render owns DOM)",
+      "cooldownSeconds": 60,
+      "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/happy-tool.js",
+      "size": 6894
+    },
+    {
+      "id": "template-tool",
+      "filename": "template-tool.js",
+      "name": "Template Tool",
+      "description": "Minimal starter template — copy this to build your own tool",
+      "cooldownSeconds": 60,
+      "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/template-tool.js",
+      "size": 3053
+    },
+    {
+      "id": "three-tool",
+      "filename": "three-tool.js",
+      "name": "Three Cube",
+      "description": "Spinning three.js cube — tool renders a WebGL game in the card",
+      "cooldownSeconds": 30,
+      "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/three-tool.js",
+      "size": 5473
+    },
+    {
+      "id": "time-tool",
+      "filename": "time-tool.js",
+      "name": "Current Time",
+      "description": "Shows the current time — updates each time cooldown expires (render owns DOM)",
+      "cooldownSeconds": 10,
+      "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/time-tool.js",
+      "size": 2511
+    }
+  ]
+}
