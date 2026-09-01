@@ -5,6 +5,7 @@
 
 const name = "Drink Water";
 const description = "Generate a random Drink Water reminder — due in 5 minutes (Todo)";
+const version = "1.0.1";
 
 function cooldown() {
   return 30; // seconds before Home can show the card again (from seen time)
@@ -110,4 +111,4 @@ function submit(ctx, payload) {
   return { ok: true, title, dueAt };
 }
 
-module.exports = { name, description, cooldown, install, uninstall, render, submit };
+module.exports = { name, description, version, cooldown, install, uninstall, render, submit };

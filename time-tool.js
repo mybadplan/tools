@@ -3,6 +3,7 @@
 
 const name = "Current Time";
 const description = "Shows the current time — updates each time cooldown expires (render owns DOM)";
+const version = "1.0.0";
 function cooldown() {
   return 10; // seconds before Home can call render() again
 }
@@ -59,4 +60,4 @@ async function render(ctx, container, submit) {
   return () => clearInterval(id);
 }
 
-module.exports = { name, description, cooldown, install, uninstall, render };
+module.exports = { name, description, version, cooldown, install, uninstall, render };

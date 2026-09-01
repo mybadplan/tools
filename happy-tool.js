@@ -8,6 +8,7 @@
 
 const name = "Happy Check";
 const description = "Ask how much you are happy — 1 to 5 rating with weekly heatmap (render owns DOM)";
+const version = "1.2.0";
 function cooldown() {
   return 60; // seconds before Home can show this card again (from seen time)
 }
@@ -150,4 +151,4 @@ function submit(ctx, payload) {
   return { ok: true, received: payload, totalAnswers: store.answers.length };
 }
 
-module.exports = { name, description, cooldown, install, uninstall, render, submit };
+module.exports = { name, description, version, cooldown, install, uninstall, render, submit };

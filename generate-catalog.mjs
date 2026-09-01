@@ -38,6 +38,7 @@ function toId(filename) {
 function quickMeta(code) {
   const nameMatch = code.match(/(?:const|let|var)\s+name\s*=\s*["'`]([^"'`]+)["'`]/);
   const descMatch = code.match(/(?:const|let|var)\s+description\s*=\s*["'`]([^"'`]+)["'`]/);
+  const versionMatch = code.match(/(?:const|let|var)\s+version\s*=\s*["'`]([^"'`]+)["'`]/);
   const cooldownFn = code.match(/function\s+cooldown\s*\([^)]*\)\s*\{\s*return\s+(\d+)/);
   const cooldownConst = code.match(/(?:const|let|var)\s+cooldown\s*=\s*(\d+)/);
   let cooldownSeconds = 0;
@@ -46,6 +47,7 @@ function quickMeta(code) {
   return {
     name: nameMatch ? nameMatch[1].trim() : null,
     description: descMatch ? descMatch[1].trim() : "",
+    version: versionMatch ? versionMatch[1].trim().slice(0, 32) : null,
     cooldownSeconds,
   };
 }
@@ -70,6 +72,7 @@ const tools = files.map((filename) => {
   const meta = quickMeta(code);
   const name = meta.name || toTitleCase(filename);
   const description = meta.description || "";
+  const version = meta.version || null;
   const cooldownSeconds = Number.isFinite(meta.cooldownSeconds) ? meta.cooldownSeconds : 0;
   const stat = fs.statSync(full);
   return {
@@ -77,6 +80,7 @@ const tools = files.map((filename) => {
     filename,
     name: name.slice(0, 80),
     description: description.slice(0, 300),
+    version,
     cooldownSeconds: Math.max(0, Math.min(2592000, Math.floor(cooldownSeconds))),
     rawUrl: rawUrlFor(filename),
     size: stat.size,

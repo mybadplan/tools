@@ -3,6 +3,7 @@
 
 const name = "Template Tool";
 const description = "Minimal starter template — copy this to build your own tool";
+const version = "0.2.0";
 
 function cooldown() {
   return 60; // seconds before Home can show this card again
@@ -80,4 +81,4 @@ function submit(ctx, payload) {
   return { ok: true, count: store.count };
 }
 
-module.exports = { name, description, cooldown, install, uninstall, render, submit };
+module.exports = { name, description, version, cooldown, install, uninstall, render, submit };

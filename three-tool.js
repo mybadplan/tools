@@ -5,6 +5,7 @@
 
 const name = "Three Cube";
 const description = "Spinning three.js cube — tool renders a WebGL game in the card";
+const version = "1.0.0";
 function cooldown() { return 30; }
 
 function install(ctx) { console.log("[three-tool] install", ctx.toolId); }
@@ -140,4 +141,4 @@ function submit(ctx, payload) {
   return { ok: true, score: ctx.data.score };
 }
 
-module.exports = { name, description, cooldown, install, uninstall, render, submit };
+module.exports = { name, description, version, cooldown, install, uninstall, render, submit };
