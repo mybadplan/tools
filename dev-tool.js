@@ -144,26 +144,68 @@ function submit(ctx, payload) { return { ok: true }; }
 module.exports = { name, description, version, cooldown, install, render, submit };
 `;
 
-// widget() renders inline on /web/tools (above Discover)
+// widget() renders inline on /web/tools (above Discover) — opens dedicated /web/dev page like Camera Demo → /web/camera
 function widget(ctx, container) {
   container.innerHTML = "";
-  container.style.cssText = "padding:12px;display:flex;flex-direction:column;gap:8px;font-family:system-ui";
-  const h = document.createElement("div");
-  h.textContent = "Dev Tool";
-  h.style.cssText = "font-size:13px;font-weight:600";
-  container.appendChild(h);
-  const p = document.createElement("p");
-  p.textContent = "Install private tools from pasted JS. Use this card (or its Home swipe card) → paste & install.";
-  p.style.cssText = "font-size:11px;color:#71717a;line-height:1.4";
-  container.appendChild(p);
-  const row = document.createElement("div");
-  row.style.cssText = "display:flex;gap:8px;flex-wrap:wrap";
-  const b = document.createElement("button");
-  b.textContent = "Go to Home";
-  b.style.cssText = "flex:1;text-align:center;padding:8px 12px;border-radius:8px;background:#111;color:white;font-size:12px;font-weight:600;border:none;cursor:pointer";
-  b.onclick = () => { window.location.href = "/web"; };
-  row.appendChild(b);
-  container.appendChild(row);
+  container.style.cssText = "display:flex;flex-direction:column;gap:8px;padding:12px";
+
+  const head = document.createElement("div");
+  head.style.cssText = "display:flex;align-items:center;gap:8px";
+  const badge = document.createElement("div");
+  badge.textContent = "🛠️";
+  badge.style.cssText = "width:32px;height:32px;border-radius:9999px;background:#f4f4f5;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0";
+  head.appendChild(badge);
+  const titleBox = document.createElement("div");
+  titleBox.style.cssText = "min-width:0;flex:1";
+  const t = document.createElement("div");
+  t.textContent = "Dev Tool";
+  t.style.cssText = "font-size:13px;font-weight:600;line-height:1";
+  titleBox.appendChild(t);
+  const sub = document.createElement("div");
+  sub.textContent = "Widget → dev page (install from pasted JS)";
+  sub.style.cssText = "font-size:11px;color:#71717a;margin-top:2px";
+  titleBox.appendChild(sub);
+  head.appendChild(titleBox);
+  container.appendChild(head);
+
+  const hint = document.createElement("p");
+  hint.textContent = "Tap to open live dev installer. Pasted JS is installed locally to IndexedDB + OPFS (no server).";
+  hint.style.cssText = "font-size:11px;color:#71717a;line-height:1.4";
+  container.appendChild(hint);
+
+  const btn = document.createElement("button");
+  btn.textContent = "Open Dev";
+  btn.style.cssText = "margin-top:2px;width:100%;height:36px;border-radius:8px;background:#111;color:white;font-size:13px;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px";
+  const icon = document.createElement("span");
+  icon.textContent = "⟡";
+  icon.style.cssText = "font-size:14px";
+  btn.prepend(icon);
+  container.appendChild(btn);
+
+  const note = document.createElement("p");
+  note.textContent = "Opens /web/dev — standalone install page (like Camera → /web/camera).";
+  note.style.cssText = "font-size:10px;color:#a1a1aa;text-align:center";
+  container.appendChild(note);
+
+  btn.onclick = () => {
+    try {
+      if (typeof window !== "undefined" && window.history && typeof window.history.pushState === "function") {
+        const target = "/web/dev";
+        window.history.pushState({}, "", target);
+        try { window.dispatchEvent(new Event("locationchange")); } catch {}
+        try { window.dispatchEvent(new PopStateEvent("popstate")); } catch {}
+        setTimeout(() => {
+          if (window.location.pathname !== target) {
+            window.location.href = target;
+          }
+        }, 150);
+        return;
+      }
+    } catch {}
+    window.location.href = "/web/dev";
+  };
+
+  return () => {};
 }
 
 async function render(ctx, container, submit) {

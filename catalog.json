@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-02T01:51:23.148Z",
+  "generatedAt": "2026-09-02T02:34:59.131Z",
   "repo": "mybadplan/tools",
   "branch": "main",
   "tools": [
@@ -21,7 +21,7 @@
       "version": "1.0.0",
       "cooldownSeconds": 300,
       "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/dev-tool.js",
-      "size": 17205
+      "size": 18943
     },
     {
       "id": "drink-water-tool",
