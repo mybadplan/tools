@@ -4,8 +4,8 @@
 // Properties: name, description, cooldown() -> seconds
 // Lifecycle: install(ctx), uninstall(ctx), render(ctx, container, submit, next), submit(ctx, payload)
 //   render(ctx, container, submit, next) owns the whole card: use DOM/canvas/threejs, dynamic import, etc.
-//   `next` (and ctx.next / ctx.goNext) advances Home to the next card — call after saving reaction.
 //   data = {} persisted per tool per user (ctx.data and global data are same cloned object)
+//   next() / ctx.next() / dispatch 'next' event tells the Home deck to scroll to next card (or placeholder if last)
 
 const name = "Happy Check";
 const description = "Ask how much you are happy — 1 to 5 rating with weekly heatmap (render owns DOM)";
@@ -26,7 +26,6 @@ function uninstall(ctx) {
 }
 
 async function render(ctx, container, submit, next) {
-  const goNext = next || ctx.next || ctx.goNext || ctx.nextCard || null;
   const store = ctx.data || (typeof data !== 'undefined' ? data : {}) || {};
   if (!store.answers) store.answers = [];
   if (typeof data !== 'undefined') data.answers = store.answers;
@@ -83,6 +82,14 @@ async function render(ctx, container, submit, next) {
   label.style.cssText = 'font-size:11px;color:#71717a;margin-bottom:8px';
   footer.appendChild(label);
 
+  function goNext() {
+    try { if (typeof next === 'function') next(); } catch {}
+    try { if (ctx && typeof ctx.next === 'function') ctx.next(); } catch {}
+    try { container.dispatchEvent(new CustomEvent('next', { bubbles: true })); } catch {}
+    try { window.dispatchEvent(new CustomEvent('tool:next')); } catch {}
+    try { window.dispatchEvent(new CustomEvent('next')); } catch {}
+  }
+
   const row = document.createElement('div');
   row.style.cssText = 'display:flex;gap:4px';
   for (let v = 1; v <= 5; v++) {
@@ -102,17 +109,8 @@ async function render(ctx, container, submit, next) {
       footer.appendChild(toast);
       setTimeout(()=> toast.remove(), 1500);
       total.textContent = 'Total answers: ' + store.answers.length;
-      // reactions saved — advance to next activity/card
-      // prefers the injected `next` arg, falls back to ctx.next or window event
-      try {
-        if (typeof goNext === 'function') goNext();
-        else if (typeof next === 'function') next();
-        else if (ctx && typeof ctx.next === 'function') ctx.next();
-        else if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('tool:next', { detail: { toolId: ctx.toolId } }));
-          container.dispatchEvent(new CustomEvent('next'));
-        }
-      } catch {}
+      // card no longer needed — advance deck to next card (or placeholder if last)
+      setTimeout(goNext, 650);
     };
     row.appendChild(btn);
   }
