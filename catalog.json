@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T23:51:26.992Z",
+  "generatedAt": "2026-09-02T01:51:23.148Z",
   "repo": "mybadplan/tools",
   "branch": "main",
   "tools": [
@@ -11,7 +11,17 @@
       "version": "0.9.0",
       "cooldownSeconds": 30,
       "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/camera-widget-tool.js",
-      "size": 6486
+      "size": 6495
+    },
+    {
+      "id": "dev-tool",
+      "filename": "dev-tool.js",
+      "name": "Dev Tool",
+      "description": "Install tools from pasted JS — paste any tool source and add it locally (IndexedDB + OPFS)",
+      "version": "1.0.0",
+      "cooldownSeconds": 300,
+      "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/dev-tool.js",
+      "size": 17205
     },
     {
       "id": "drink-water-tool",
@@ -21,7 +31,7 @@
       "version": "1.0.1",
       "cooldownSeconds": 30,
       "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/drink-water-tool.js",
-      "size": 5203
+      "size": 5212
     },
     {
       "id": "happy-tool",
@@ -31,7 +41,7 @@
       "version": "1.2.0",
       "cooldownSeconds": 60,
       "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/happy-tool.js",
-      "size": 6919
+      "size": 6928
     },
     {
       "id": "template-tool",
@@ -41,7 +51,7 @@
       "version": "0.2.0",
       "cooldownSeconds": 60,
       "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/template-tool.js",
-      "size": 3078
+      "size": 3087
     },
     {
       "id": "three-tool",
@@ -51,7 +61,7 @@
       "version": "1.0.0",
       "cooldownSeconds": 30,
       "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/three-tool.js",
-      "size": 5498
+      "size": 5507
     },
     {
       "id": "time-tool",
@@ -61,7 +71,7 @@
       "version": "1.0.0",
       "cooldownSeconds": 10,
       "rawUrl": "https://raw.githubusercontent.com/mybadplan/tools/main/time-tool.js",
-      "size": 2536
+      "size": 2545
     }
   ]
 }
