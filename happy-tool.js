@@ -2,13 +2,14 @@
 // Copy-paste this file content into the Tools page textarea and click Install.
 //
 // Properties: name, description, cooldown() -> seconds
-// Lifecycle: install(ctx), uninstall(ctx), render(ctx, container, submit), submit(ctx, payload)
-//   render(ctx, container, submit) owns the whole card: use DOM/canvas/threejs, dynamic import, etc.
+// Lifecycle: install(ctx), uninstall(ctx), render(ctx, container, submit, next), submit(ctx, payload)
+//   render(ctx, container, submit, next) owns the whole card: use DOM/canvas/threejs, dynamic import, etc.
+//   `next` (and ctx.next / ctx.goNext) advances Home to the next card — call after saving reaction.
 //   data = {} persisted per tool per user (ctx.data and global data are same cloned object)
 
 const name = "Happy Check";
 const description = "Ask how much you are happy — 1 to 5 rating with weekly heatmap (render owns DOM)";
-const version = "1.2.0";
+const version = "1.3.0";
 function cooldown() {
   return 60; // seconds before Home can show this card again (from seen time)
 }
@@ -24,7 +25,8 @@ function uninstall(ctx) {
   console.log(`[happy-tool] uninstalled for user ${ctx.userId}`);
 }
 
-async function render(ctx, container, submit) {
+async function render(ctx, container, submit, next) {
+  const goNext = next || ctx.next || ctx.goNext || ctx.nextCard || null;
   const store = ctx.data || (typeof data !== 'undefined' ? data : {}) || {};
   if (!store.answers) store.answers = [];
   if (typeof data !== 'undefined') data.answers = store.answers;
@@ -100,6 +102,17 @@ async function render(ctx, container, submit) {
       footer.appendChild(toast);
       setTimeout(()=> toast.remove(), 1500);
       total.textContent = 'Total answers: ' + store.answers.length;
+      // reactions saved — advance to next activity/card
+      // prefers the injected `next` arg, falls back to ctx.next or window event
+      try {
+        if (typeof goNext === 'function') goNext();
+        else if (typeof next === 'function') next();
+        else if (ctx && typeof ctx.next === 'function') ctx.next();
+        else if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('tool:next', { detail: { toolId: ctx.toolId } }));
+          container.dispatchEvent(new CustomEvent('next'));
+        }
+      } catch {}
     };
     row.appendChild(btn);
   }
